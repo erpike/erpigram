@@ -1,2 +1,4 @@
 fastapi==0.95.0
+peewee==3.16.0
+peewee-migrate==1.7.0
 uvicorn==0.21.1
