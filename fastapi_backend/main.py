@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from db.models import init_db
+from src.models import init_db
 
 app = FastAPI(title="ErpiGRAM")
 init_db()
