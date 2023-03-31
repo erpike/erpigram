@@ -5,6 +5,11 @@ from playhouse.sqlite_ext import SqliteExtDatabase
 from src.models import db_proxy, BaseModel
 
 
+# import sys
+# import os
+# sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
 db = SqliteExtDatabase(":memory:")
 
 

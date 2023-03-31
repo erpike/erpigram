@@ -1,0 +1,26 @@
+1. pytest /tests command run from /fastapi_backend failed with next error:
+    ModuleNotFoundError: No module named 'src'
+
+    Project structure at that time:
+    /fastapi_backend
+        /src
+            __init__.py
+            /db
+            models.py
+        /tests
+            conftest.py
+            test_db.py
+
+    Reason:
+    https://docs.pytest.org/en/latest/explanation/goodpractices.html
+    Pytest determines the import name as follows:
+    1 determine basedir: this is the first “upward” (towards the root) directory not containing an __init__.py
+    2 perform sys.path.insert(0, basedir) to make the test module importable under the fully qualified import name.
+
+    As result base dir was /tests (as the 1st dir without __init__.py). And base dir didn't know anything about /src.
+
+    How to solve issue?
+    1. add __init__.py to /tests directory.
+    Is it the best fix?
+    https://stackoverflow.com/questions/29153922/pytest-and-why-avoid-init-file
+    2. add project root dir (fastapi_backend) to sys.path somewhere before importing
