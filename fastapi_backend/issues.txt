@@ -24,3 +24,8 @@
     Is it the best fix?
     https://stackoverflow.com/questions/29153922/pytest-and-why-avoid-init-file
     2. add project root dir (fastapi_backend) to sys.path somewhere before importing
+
+
+2. For some strange reason TestClient().post could not write to db as db locked.
+Committing session releases db resources (maybe)
+See conftest.py::init_test_db, conftest.py::fake_app and test_create_user_endpoint::test_app
