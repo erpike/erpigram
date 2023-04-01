@@ -1,5 +1,6 @@
 import os
 import pytest
+from _pytest.fixtures import SubRequest
 
 from playhouse.sqlite_ext import SqliteExtDatabase
 from starlette.testclient import TestClient
@@ -21,7 +22,11 @@ def fake_app():
 
 
 @pytest.fixture(scope="function", autouse=True)
-def init_test_db():
+def init_test_db(request: SubRequest):
+    if "nodb" in request.keywords:
+        yield
+        return
+
     with db_proxy:
         models = [cls for cls in BaseModel.__subclasses__()]
         db_proxy.drop_tables(models)

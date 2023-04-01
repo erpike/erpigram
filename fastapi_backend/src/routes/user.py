@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 
 from src.models import db_proxy, User
 from src.schemas import UserDisplay, UserBase
-
+from src.utils import PwdManager
 
 router = APIRouter(
     prefix="/user",
@@ -20,5 +20,5 @@ def create_user(request: UserBase):
     return User.create(
         username=request.username,
         email=request.email,
-        password=request.password,
+        password=PwdManager.hash(request.password),
     )

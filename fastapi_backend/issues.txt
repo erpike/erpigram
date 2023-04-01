@@ -29,3 +29,7 @@
 2. For some strange reason TestClient().post could not write to db as db locked.
 Committing session releases db resources (maybe)
 See conftest.py::init_test_db, conftest.py::fake_app and test_create_user_endpoint::test_app
+
+
+Useful links:
+https://www.freecodecamp.org/news/how-to-add-jwt-authentication-in-fastapi/
