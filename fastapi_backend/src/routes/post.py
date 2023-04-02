@@ -3,7 +3,8 @@ from peewee import IntegrityError
 
 from src.models import Post
 from src.routes import db_session
-from src.schemas import PostBase, PostDisplay
+from src.routes.auth import identify_user
+from src.schemas import PostBase, PostDisplay, UserDisplay
 
 router = APIRouter(
     prefix="/post",
@@ -18,7 +19,7 @@ image_url_types = ["absolute", "relative"]
     response_model=PostDisplay,
     dependencies=[Depends(db_session)],
 )
-def create_post(request: PostBase):
+def create_post(request: PostBase, current_user: UserDisplay = Depends(identify_user)):
     if request.image_url_type not in image_url_types:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

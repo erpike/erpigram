@@ -5,7 +5,13 @@ from unittest.mock import Mock
 import jwt
 import pytest
 
-from src.utils import create_access_token
+from src.utils import create_access_token, PwdManager
+
+
+@pytest.mark.parametrize("raw_pdw", ["password1", "QWErty!123", b"bytesymbols"])
+def test_pwd_manager_verify_success(raw_pdw):
+    fake_hash = PwdManager.hash(raw_pdw)
+    assert PwdManager.verify(fake_hash, raw_pdw)
 
 
 @pytest.mark.parametrize("subject, expired, res_sub, res_exp", [

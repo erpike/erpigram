@@ -7,6 +7,7 @@ from starlette.testclient import TestClient
 
 from main import app
 from src.models import db_proxy, BaseModel
+from src.routes.auth import identify_user
 
 test_db = "testdb.sqlite"
 db = SqliteExtDatabase(
@@ -16,8 +17,16 @@ db = SqliteExtDatabase(
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def fake_app():
+    return TestClient(app)
+
+
+@pytest.fixture
+def fake_app_authorized():
+    def skip_auth():
+        pass
+    app.dependency_overrides[identify_user] = skip_auth
     return TestClient(app)
 
 
