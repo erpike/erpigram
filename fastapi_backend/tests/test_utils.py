@@ -39,11 +39,17 @@ def test_create_access_token(subject, expired, res_sub, res_exp):
         )
 
 
-@pytest.mark.parametrize("subject, expired, exp_token, exp_value", {
+@pytest.mark.parametrize("subject, expired, exp_token, exp_value", [
     ("token", None, "token", 30),
     ("token", 20, "token", 20),
     ("token", 65, "token", 65),
-})
+    (
+        {"token": "token"},
+        33,
+        "{'token': 'token'}",
+        33
+    ),
+])
 @pytest.mark.nodb
 def test_create_access_token_no_patch_datetime(subject, expired, exp_token, exp_value):
     nowtime = datetime.utcnow()

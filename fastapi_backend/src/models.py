@@ -1,4 +1,6 @@
-from peewee import Proxy, Model, CharField
+from datetime import datetime
+
+from peewee import Proxy, Model, CharField, DateTimeField, ForeignKeyField
 from peewee_migrate import Router
 from playhouse.sqlite_ext import SqliteExtDatabase
 
@@ -25,6 +27,14 @@ class User(BaseModel):
     username = CharField(max_length=255)
     email = CharField(max_length=255)
     password = CharField(max_length=255)
+
+
+class Post(BaseModel):
+    image_url = CharField()
+    image_url_type = CharField(max_length=255)
+    caption = CharField(max_length=255)
+    timestamp = DateTimeField(default=datetime.utcnow)
+    user = ForeignKeyField(User, backref="posts")
 
 
 def init_db():
