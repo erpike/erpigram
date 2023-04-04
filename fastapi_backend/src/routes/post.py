@@ -19,7 +19,7 @@ image_url_types = ["absolute", "relative"]
     response_model=PostDisplay,
     dependencies=[Depends(db_session)],
 )
-def create_post(request: PostBase, current_user: UserDisplay = Depends(identify_user)):
+async def create_post(request: PostBase, current_user: UserDisplay = Depends(identify_user)):
     if request.image_url_type not in image_url_types:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

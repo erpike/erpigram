@@ -1,6 +1,7 @@
 from src.models import db_proxy
 
 
-def db_session():
-    with db_proxy:
-        yield
+async def db_session():
+    with db_proxy as session:
+        yield session
+
