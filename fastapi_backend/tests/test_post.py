@@ -21,3 +21,33 @@ def test_create_post_endpoint(fake_app_authorized):
         "image_url_type": "absolute",
         "user": {"username": "admin"},
     }
+
+
+def test_get_post_list(fake_app):
+    u1 = User.create(username="username", email="email", password="password")
+    Post.create(image_url="/static/001.png", image_url_type="relative", caption="Hi there!", user=u1)
+    Post.create(image_url="/static/002.png", image_url_type="relative", caption="My test...", user=u1)
+
+    result = fake_app.get("/post")
+    data = json.loads(result.text)
+    for i in data:
+        i.pop("timestamp")
+
+    assert result.status_code == 200
+    assert Post.select().count() == 2
+    assert data == [
+        {
+            "id": 1,
+            "caption": "Hi there!",
+            "image_url": "/static/001.png",
+            "image_url_type": "relative",
+            "user": {"username": "username"},
+        },
+        {
+            "id": 2,
+            "caption": "My test...",
+            "image_url": "/static/002.png",
+            "image_url_type": "relative",
+            "user": {"username": "username"},
+        },
+    ]

@@ -53,4 +53,3 @@ async def list_user(
     query = query.limit(limit) if limit else query
     query = query.offset(offset) if offset else query
     return list(query)
-#
