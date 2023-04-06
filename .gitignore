@@ -2,3 +2,4 @@ Pipfile*
 *.idea
 *.pyc
 *.sqlite
+images/

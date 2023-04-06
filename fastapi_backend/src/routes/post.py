@@ -1,10 +1,12 @@
-import datetime
+import random
+import shutil
+import string
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from peewee import IntegrityError
 
-from src.models import Post, User
+from src.models import Post
 from src.routes import db_session
 from src.routes.auth import identify_user
 from src.schemas import PostBase, PostDisplay, UserDisplay
@@ -61,3 +63,16 @@ async def list_post(
     query = query.limit(limit) if limit else query
     query = query.offset(offset) if offset else query
     return list(query)
+
+
+@router.post("/image")
+async def upload_image(image: UploadFile = File()):
+    # image.filename = f.1.png
+    rand_str = "_" + "".join(random.choice(string.ascii_letters) for i in range(8)) + "."  # `_3x5g.`
+    # f.1.png -> ["f.1", "png"] + new.join ==> "f.1_3x5g.png
+    full_path = f'images/{rand_str.join(image.filename.rsplit(".", 1))}'
+
+    with open(full_path, "w+b") as buffer:
+        shutil.copyfileobj(image.file, buffer)
+
+    return {"filename": full_path}
