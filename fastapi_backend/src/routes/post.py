@@ -77,3 +77,18 @@ async def upload_image(image: UploadFile = File()):
     with open(full_path, "w+b") as buffer:
         shutil.copyfileobj(image.file, buffer)
     return {"filename": full_path}
+
+
+@router.delete(
+    "/delete/{id}",
+    dependencies=[Depends(db_session)],
+)
+async def delete(_id: int, current_user: UserDisplay = Depends(identify_user)):
+    post = Post.get_or_none(user=current_user, id=_id)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"{current_user.username}'s post with specified id was not found."
+        )
+    post.delete_instance()
+    return "ok"
