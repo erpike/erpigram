@@ -1,3 +1,5 @@
+import random
+import string
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Union, Any
@@ -32,6 +34,12 @@ def create_token(subject: Union[str, Any], expires_delta: int = None, expired_va
 
 create_access_token = partial(create_token, expired_value=ACCESS_TOKEN_EXPIRE_MINUTES)
 create_refresh_token = partial(create_token, expired_value=REFRESH_TOKEN_EXPIRE_MINUTES)
+
+
+def generate_image_name(old_name: str) -> str:
+    rand_str = "_" + "".join(random.choice(string.ascii_letters) for _ in range(8)) + "."  # `_3x5g.`
+    new = rand_str.join(old_name.rsplit(".", 1))
+    return new
 
 
 class PwdManager:

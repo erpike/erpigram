@@ -1,11 +1,11 @@
+import jwt
+import pytest
+
 from datetime import datetime, timezone
 from unittest import mock
 from unittest.mock import Mock
 
-import jwt
-import pytest
-
-from src.utils import create_access_token, PwdManager
+from src.utils import create_access_token, PwdManager, generate_image_name
 
 
 @pytest.mark.parametrize("raw_pdw", ["password1", "QWErty!123", b"bytesymbols"])
@@ -75,3 +75,9 @@ def test_create_access_token_no_patch_datetime(subject, expired, exp_token, exp_
     # or equal to expires value if it set
     # default = 30. but expired_time - nowtime can be less than 30 because some time spent for test execution
     assert exp_value - 1 <= int((exp - nowtime).total_seconds() / 60) <= exp_value + 1
+
+
+@pytest.mark.nodb
+def test_generate_image_name():
+    with mock.patch("src.utils.random.choice", Mock(side_effect=["r", "a", "n", "d", "o", "m", "s", "q"])):
+        assert generate_image_name("awesome.image.png") == "awesome.image_randomsq.png"

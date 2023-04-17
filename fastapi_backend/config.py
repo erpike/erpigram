@@ -3,8 +3,14 @@ import os
 ROOT_DIR = os.path.dirname(__file__)
 SRC_DIR = os.path.join(ROOT_DIR, "src")
 
-MIGRATIONS_PATH = os.path.join(SRC_DIR, "db", "migrations")
+STATIC_DIRNAME = "static"
+IMAGE_DIRNAME = "images"
+
+MIGRATIONS_PATH = os.path.join(SRC_DIR, "db", "migrations")  # root/src/db/migrations
 DB_PATH = os.path.join(ROOT_DIR, "ergram.sqlite")
+STATIC_PATH = os.path.join(ROOT_DIR, STATIC_DIRNAME)   # root/static
+IMAGE_PATH = os.path.join(STATIC_PATH, IMAGE_DIRNAME)  # root/static/images
+
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 30 mins
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
