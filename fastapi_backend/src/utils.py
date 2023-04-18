@@ -37,6 +37,8 @@ create_refresh_token = partial(create_token, expired_value=REFRESH_TOKEN_EXPIRE_
 
 
 def generate_image_name(old_name: str) -> str:
+    # old_name = f.1.png
+    # f.1.png -> ["f.1", "png"] -> rand_str.join ==> "f.1_3x5g.png
     rand_str = "_" + "".join(random.choice(string.ascii_letters) for _ in range(8)) + "."  # `_3x5g.`
     new = rand_str.join(old_name.rsplit(".", 1))
     return new

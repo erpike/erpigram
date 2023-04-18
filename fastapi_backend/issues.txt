@@ -32,4 +32,7 @@ See conftest.py::init_test_db, conftest.py::fake_app and test_create_user_endpoi
 
 
 Useful links:
-https://www.freecodecamp.org/news/how-to-add-jwt-authentication-in-fastapi/
+1. https://www.freecodecamp.org/news/how-to-add-jwt-authentication-in-fastapi/
+
+2. Pydantic circular import issue
+https://stackoverflow.com/questions/74346565/fastapi-typeerror-issubclass-arg-1-must-be-a-class-with-modular-imports

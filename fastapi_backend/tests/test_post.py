@@ -42,6 +42,7 @@ def test_get_post_list(fake_app):
             "image_url": "/static/001.png",
             "image_url_type": "relative",
             "user": {"username": "username"},
+            "comments": [],
         },
         {
             "id": 2,
@@ -49,5 +50,6 @@ def test_get_post_list(fake_app):
             "image_url": "/static/002.png",
             "image_url_type": "relative",
             "user": {"username": "username"},
+            "comments": [],
         },
     ]

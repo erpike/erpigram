@@ -1,17 +1,16 @@
-import random
 import shutil
-import string
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from peewee import IntegrityError
 
-from config import IMAGE_PATH, STATIC_DIRNAME, IMAGE_DIRNAME
+from config import STATIC_DIRNAME, IMAGE_DIRNAME
 from src.models import Post
 from src.routes import db_session
 from src.routes.auth import identify_user
 from src.schemas import PostBase, PostDisplay, UserDisplay
 from src.utils import generate_image_name
+
 
 router = APIRouter(
     prefix="/post",
@@ -25,6 +24,7 @@ image_url_types = ["absolute", "relative"]
     "",
     response_model=PostDisplay,
     dependencies=[Depends(db_session)],
+    response_model_exclude={"comments"},
 )
 async def create_post(request: PostBase, current_user: UserDisplay = Depends(identify_user)):
     if request.image_url_type not in image_url_types:
@@ -68,23 +68,20 @@ async def list_post(
 
 
 @router.post("/image")
-async def upload_image(image: UploadFile = File()):
-    # image.filename = f.1.png
+async def upload_image(image: UploadFile = File(), current_user: UserDisplay = Depends(identify_user)):
     new_name = generate_image_name(image.filename)
-    # f.1.png -> ["f.1", "png"] + new.join ==> "f.1_3x5g.png
     full_path = f"{STATIC_DIRNAME}/{IMAGE_DIRNAME}/{new_name}"
-
     with open(full_path, "w+b") as buffer:
         shutil.copyfileobj(image.file, buffer)
     return {"filename": full_path}
 
 
 @router.delete(
-    "/delete/{id}",
+    "/delete/{post_id}",
     dependencies=[Depends(db_session)],
 )
-async def delete(_id: int, current_user: UserDisplay = Depends(identify_user)):
-    post = Post.get_or_none(user=current_user, id=_id)
+async def delete(post_id: int, current_user: UserDisplay = Depends(identify_user)):
+    post = Post.get_or_none(user=current_user, id=post_id)
     if not post:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

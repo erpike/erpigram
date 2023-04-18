@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from peewee import Proxy, Model, CharField, DateTimeField, ForeignKeyField
+from peewee import Proxy, Model, CharField, DateTimeField, ForeignKeyField, TextField
 from peewee_migrate import Router
 from playhouse.sqlite_ext import SqliteExtDatabase
 
@@ -33,8 +33,15 @@ class Post(BaseModel):
     image_url = CharField()
     image_url_type = CharField(max_length=255)
     caption = CharField(max_length=255)
+    user = ForeignKeyField(User, backref="posts", null=True, on_delete="SET NULL")
     timestamp = DateTimeField(default=datetime.utcnow)
-    user = ForeignKeyField(User, backref="posts")
+
+
+class Comment(BaseModel):
+    post = ForeignKeyField(Post, backref="comments", on_delete="CASCADE")
+    text = TextField()
+    user = ForeignKeyField(User, backref="comments", null=True, on_delete="SET NULL")
+    timestamp = DateTimeField(default=datetime.utcnow)
 
 
 def init_db():

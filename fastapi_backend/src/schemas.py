@@ -1,5 +1,17 @@
 from datetime import datetime
+from typing import List, Any
+
+from peewee import ModelSelect
 from pydantic import BaseModel
+from pydantic.utils import GetterDict
+
+
+class PeeweeGetterDict(GetterDict):
+    def get(self, key: Any, default: Any = None):
+        res = getattr(self._obj, key, default)
+        if isinstance(res, ModelSelect):
+            return list(res)
+        return res
 
 
 class UserBase(BaseModel):
@@ -28,8 +40,27 @@ class PostBase(BaseModel):
     user_id: int
 
 
+class CommentBase(BaseModel):
+    # user_id: int
+    post_id: int
+    text: str
+
+    class Config:
+        orm_mode = True
+
+
 class UserPostDisplay(BaseModel):
     username: str
+
+    class Config:
+        orm_mode = True
+
+
+# for Post display
+class CommentDisplay(BaseModel):
+    text: str
+    user: UserPostDisplay
+    timestamp: datetime
 
     class Config:
         orm_mode = True
@@ -42,6 +73,8 @@ class PostDisplay(BaseModel):
     caption: str
     timestamp: datetime
     user: UserPostDisplay
+    comments: List[CommentDisplay]
 
     class Config:
         orm_mode = True
+        getter_dict = PeeweeGetterDict
