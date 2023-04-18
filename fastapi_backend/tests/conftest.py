@@ -24,9 +24,9 @@ def fake_app():
 
 @pytest.fixture
 def fake_app_authorized():
-    def skip_auth():
-        pass
-    app.dependency_overrides[identify_user] = skip_auth
+    def fake_auth():
+        return "auth_user"
+    app.dependency_overrides[identify_user] = fake_auth
     return TestClient(app)
 
 

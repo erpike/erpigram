@@ -41,7 +41,7 @@ class PostBase(BaseModel):
 
 
 class CommentBase(BaseModel):
-    # user_id: int
+    user_id: int
     post_id: int
     text: str
 
