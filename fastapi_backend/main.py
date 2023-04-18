@@ -1,18 +1,15 @@
-from fastapi import FastAPI
-from starlette.staticfiles import StaticFiles
+import uvicorn
 
-from config import IMAGE_PATH
-from src.models import init_db
-from src.routes.auth import router as auth_router
-from src.routes.post import router as post_router
-from src.routes.user import router as user_router
-from src.routes.comment import router as comment_router
+from app import ErpigramFastAPI
+from src.utils import parse_args
 
 
-app = FastAPI(title="ErpiGRAM")
-app.include_router(auth_router)
-app.include_router(post_router)
-app.include_router(user_router)
-app.include_router(comment_router)
-app.mount("/images", StaticFiles(directory=IMAGE_PATH), name="images")
-init_db()
+app = ErpigramFastAPI(title="ErpiGRAM")
+
+
+def main(args):
+    uvicorn.run("main:app", reload=args.reload)
+
+
+if __name__ == "__main__":
+    main(parse_args())

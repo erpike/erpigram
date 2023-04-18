@@ -1,3 +1,4 @@
+import argparse
 import random
 import string
 from datetime import datetime, timedelta, timezone
@@ -54,3 +55,9 @@ class PwdManager:
     @classmethod
     def verify(cls, hashed_password, plain_password):
         return cls.pwd_cxt.verify(plain_password, hashed_password)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run a ErpiGRAM backend application.')
+    parser.add_argument("--reload", action="store_true", help="reload app on code update")
+    return parser.parse_args()
