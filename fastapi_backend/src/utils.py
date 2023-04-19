@@ -60,4 +60,5 @@ class PwdManager:
 def parse_args():
     parser = argparse.ArgumentParser(description='Run a ErpiGRAM backend application.')
     parser.add_argument("--reload", action="store_true", help="reload app on code update")
+    parser.add_argument("--devmode", action="store_true", help="clean db and populate dummy data")
     return parser.parse_args()

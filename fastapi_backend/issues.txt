@@ -36,3 +36,6 @@ Useful links:
 
 2. Pydantic circular import issue
 https://stackoverflow.com/questions/74346565/fastapi-typeerror-issubclass-arg-1-must-be-a-class-with-modular-imports
+
+3 run python command from terminal for checking sqlite3 version:
+python -c "import sqlite3; print(sqlite3.connect(':memory:').execute('SELECT sqlite_version();').fetchall())"

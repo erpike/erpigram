@@ -6,8 +6,9 @@ from playhouse.sqlite_ext import SqliteExtDatabase
 from starlette.testclient import TestClient
 
 from main import app
-from src.models import db_proxy, BaseModel
+from src.models import db_proxy, get_db_models_list
 from src.routes.auth import identify_user
+
 
 test_db = "testdb.sqlite"
 db = SqliteExtDatabase(
@@ -37,7 +38,7 @@ def init_test_db(request: SubRequest):
         return
 
     with db_proxy:
-        models = [cls for cls in BaseModel.__subclasses__()]
+        models = get_db_models_list()
         db_proxy.drop_tables(models)
         db_proxy.create_tables(models)
 

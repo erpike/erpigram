@@ -50,3 +50,7 @@ def init_db():
     with db_proxy:
         router.run()
         # TODO: create initial superuser
+
+
+def get_db_models_list():
+    return [cls for cls in BaseModel.__subclasses__()]
