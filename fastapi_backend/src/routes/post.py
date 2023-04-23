@@ -4,7 +4,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from peewee import IntegrityError
 
-from config import STATIC_DIRNAME, IMAGE_DIRNAME
+from config import STATIC_DIRNAME, IMAGE_DIRNAME, STATIC_PATH
 from src.models import Post
 from src.routes import db_session
 from src.routes.auth import identify_user
@@ -70,10 +70,10 @@ async def list_post(
 @router.post("/image")
 async def upload_image(image: UploadFile = File(), current_user: UserDisplay = Depends(identify_user)):
     new_name = generate_image_name(image.filename)
-    full_path = f"{STATIC_DIRNAME}/{IMAGE_DIRNAME}/{new_name}"
-    with open(full_path, "w+b") as buffer:
+    url_path = f"{IMAGE_DIRNAME}/{new_name}"
+    with open(f"{STATIC_PATH}/{url_path}", "w+b") as buffer:
         shutil.copyfileobj(image.file, buffer)
-    return {"filename": full_path}
+    return {"filename": url_path}
 
 
 @router.delete(
