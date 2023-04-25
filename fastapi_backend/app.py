@@ -13,7 +13,7 @@ from src.routes.comment import router as comment_router
 
 
 origins = [
-    "http://localhost:3000",  # react js app runs on port 3000 by default
+    "https://localhost:3000",  # react js app runs on port 3000 by default
 ]
 
 
