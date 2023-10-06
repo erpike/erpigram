@@ -22,7 +22,7 @@ def test_create_comment_endpoint(fake_app_authorized):
     assert result.status_code == 200
     assert Comment.select().count() == 1
     assert {k: v for k, v in json.loads(result.text).items() if k != "timestamp"} == {
-        "text": "my comment", "user": {"username": "admin"}
+        "id": 1, "text": "my comment", "user": {"username": "admin"}
     }
 
 
@@ -50,12 +50,12 @@ def test_create_comment_endpoint_comment_not_found(fake_app_authorized, post_id,
 
 
 @pytest.mark.parametrize("post_id, out", [
-    (1, [{"text": "text 1 (by username)", "user": {"username": "username"}}]),
+    (1, [{"id": 1, "text": "text 1 (by username)", "user": {"username": "username"}}]),
     (
         2,
         [
-            {"text": "text 2 (by username)", "user": {"username": "username"}},
-            {"text": "text 1 (by admin)", "user": {"username": "admin"}},
+            {"id": 2, "text": "text 2 (by username)", "user": {"username": "username"}},
+            {"id": 3, "text": "text 1 (by admin)", "user": {"username": "admin"}},
         ]
     ),
 ])

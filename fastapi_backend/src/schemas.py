@@ -31,6 +31,9 @@ class UserDisplay(BaseModel):
 class TokenSchema(BaseModel):
     access_token: str
     refresh_token: str
+    token_type: str
+    username: str
+    user_id: int
 
 
 class PostBase(BaseModel):
@@ -58,6 +61,7 @@ class UserPostDisplay(BaseModel):
 
 # for Post display
 class CommentDisplay(BaseModel):
+    id: int
     text: str
     user: UserPostDisplay
     timestamp: datetime

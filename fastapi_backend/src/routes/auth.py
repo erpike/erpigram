@@ -35,6 +35,9 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return dict(
         access_token=create_access_token(user.username),
         refresh_token=create_access_token(user.username),
+        token_type="Bearer",
+        username=user.username,
+        user_id=user.id,
     )
 
 
