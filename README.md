@@ -6,4 +6,4 @@
 `--devmode` - clean all db table data and populate by dummy examples<br/>
 
 #### run frontend
-`npm start`<br./>
+`npm start`<br/>
