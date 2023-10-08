@@ -28,6 +28,10 @@ class UserDisplay(BaseModel):
         orm_mode = True
 
 
+class RefreshTokenSchema(BaseModel):
+    token: str
+
+
 class TokenSchema(BaseModel):
     access_token: str
     refresh_token: str

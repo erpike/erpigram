@@ -14,6 +14,7 @@ from config import (
     ALGORITHM,
     JWT_SECRET_KEY,
     REFRESH_TOKEN_EXPIRE_MINUTES,
+    JWT_REFRESH_SECRET_KEY,
 )
 
 
@@ -21,7 +22,7 @@ def get_now_time() -> datetime.utcnow:
     return datetime.utcnow()
 
 
-def create_token(subject: Union[str, Any], expires_delta: int = None, expired_value: int = 0) -> str:
+def create_token(subject: Union[str, Any], expires_delta: int = None, expired_value: int = 0, secret: str = "") -> str:
     expires_delta = (
         (get_now_time() + timedelta(minutes=expires_delta if expires_delta else expired_value))
         .replace(tzinfo=timezone.utc)
@@ -29,12 +30,12 @@ def create_token(subject: Union[str, Any], expires_delta: int = None, expired_va
     )
 
     to_encode = {"exp": expires_delta, "sub": str(subject)}
-    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, secret, ALGORITHM)
     return encoded_jwt
 
 
-create_access_token = partial(create_token, expired_value=ACCESS_TOKEN_EXPIRE_MINUTES)
-create_refresh_token = partial(create_token, expired_value=REFRESH_TOKEN_EXPIRE_MINUTES)
+create_access_token = partial(create_token, secret=JWT_SECRET_KEY, expired_value=ACCESS_TOKEN_EXPIRE_MINUTES)
+create_refresh_token = partial(create_token, secret=JWT_REFRESH_SECRET_KEY, expired_value=REFRESH_TOKEN_EXPIRE_MINUTES)
 
 
 def generate_image_name(old_name: str) -> str:

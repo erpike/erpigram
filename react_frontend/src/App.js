@@ -173,7 +173,7 @@ function App() {
             </center>
 
             <Input placeholder="username" type="text" value={username || ""} onChange={e => setUsername(e.target.value)} />
-            <Input placeholder="password" type="text" value={password} onChange={e => setPassword(e.target.value)} />
+            <Input placeholder="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
             <Button type="submit" onClick={signIn}>Login</Button>
           </form>
         </div>
@@ -191,7 +191,7 @@ function App() {
 
             <Input placeholder="username" type="text" value={username || ""} onChange={e => setUsername(e.target.value)} />
             <Input placeholder="email" type="text" value={email} onChange={e => setEmail(e.target.value)} />
-            <Input placeholder="password" type="text" value={password} onChange={e => setPassword(e.target.value)} />
+            <Input placeholder="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
             <Button type="submit" onClick={signUp}>Sign Up</Button>
           </form>
         </div>
@@ -211,7 +211,6 @@ function App() {
       </div>
 
       <div className="app_posts">
-        {console.log("POSTS", posts)}
         {
           posts.map(
             (post) => (
