@@ -44,6 +44,46 @@ function App() {
   const [userId, setUserId] = useState(null)
 
   useEffect(() => {
+    function refreshAccessToken() {
+      if (!window.localStorage.getItem("refreshToken")) {
+        return
+      }
+
+    const token_data = window.localStorage.getItem("refreshToken")
+    
+    const json_string = JSON.stringify({
+      token: token_data
+    })
+
+    const requestOptions = {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}, 
+      body: json_string,
+    }
+
+      fetch(BASE_URL + "refresh", requestOptions)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw response
+      })
+      .then((data) => {
+        setAuthToken(data.access_token)
+
+      })
+      .catch(error => {
+        console.error(error)
+        window.localStorage.removeItem("refreshToken")
+      })
+    }
+
+    refreshAccessToken()
+    setInterval(refreshAccessToken, 1000 * 60 * 29)
+    
+  }, [])
+
+  useEffect(() => {
     setAuthToken(window.localStorage.getItem("authToken"))
     setAuthTokenType(window.localStorage.getItem("authTokenType"))
     setUsername(window.localStorage.getItem("username"))
@@ -111,6 +151,7 @@ function App() {
       setUserId(data.user_id)
       setUsername(data.username)
       setPassword("")
+      window.localStorage.setItem("refreshToken", data.refresh_token)
     })
     .catch(error => {
       setUsername(null)
@@ -152,7 +193,6 @@ function App() {
       return response.json().then(data => { throw new Error(data.detail) })
     })
     .then((data) => {
-      // console.log(data)
       signIn()
     })
     .catch(error => {console.error(error)})
