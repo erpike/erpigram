@@ -7,3 +7,11 @@
 
 #### run frontend
 `npm start`<br/>
+
+#### docker: 
+###### backend
+`docker build -t fastapi-backend ./fastapi_backend/`<br/>
+`docker run --name erpigram-backend -p 8000:8000 fastapi-backend`<br/>
+###### frontend
+`docker build -t react-frontend ./react_frontend/`<br/>
+`docker run --name erpigram-frontend -p 3000:3000 react-frontend`<br/>
