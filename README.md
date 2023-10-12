@@ -15,3 +15,5 @@
 ###### frontend
 `docker build -t react-frontend ./react_frontend/`<br/>
 `docker run --name erpigram-frontend -p 3000:3000 react-frontend`<br/>
+###### docker-compose
+`docker-compose up -d --build`

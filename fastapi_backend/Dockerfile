@@ -9,7 +9,7 @@ COPY ./static /erpigram/static
 COPY ./app.py /erpigram/app.py
 COPY ./main.py /erpigram/main.py
 COPY ./config.py /erpigram/config.py
-COPY ./ergram.sqlite /erpigram/ergram.sqlite
+# VOLUME ./ergram.sqlite /erpigram/ergram.sqlite  TODO: fix
 
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]
 # CMD ["python", "main.py"]
