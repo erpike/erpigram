@@ -164,6 +164,7 @@ function App() {
   }
 
   function signOut() {
+    window.localStorage.removeItem("refreshToken")
     setAuthToken(null)
     setAuthTokenType(null)
     setUserId(null)
